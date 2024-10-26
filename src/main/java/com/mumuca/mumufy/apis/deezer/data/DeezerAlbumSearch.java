@@ -13,6 +13,7 @@ public record DeezerAlbumSearch(
         String prev,
         String next
 ) {
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     record AlbumData(
             long id,
             String title,
@@ -30,6 +31,7 @@ public record DeezerAlbumSearch(
             Artist artist
     ) {}
 
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     record Artist(
             long id,
             String name,

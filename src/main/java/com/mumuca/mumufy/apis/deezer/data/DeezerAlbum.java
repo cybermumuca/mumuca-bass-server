@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -17,7 +16,7 @@ public record DeezerAlbum(
         String coverMedium,
         String coverBig,
         String coverXl,
-        LocalDate releaseDate,
+        String releaseDate,
         boolean explicitLyrics,
         int duration,
         String recordType,
@@ -26,14 +25,17 @@ public record DeezerAlbum(
         Artist artist,
         Track tracks
 ) {
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     record Genre(
             List<GenreData> data
     ) {
+        @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
         record GenreData(
                 long id,
                 String name
         ) {}
     }
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     record Artist(
             long id,
             String name,
@@ -47,6 +49,7 @@ public record DeezerAlbum(
     record Track(
             List<TrackData> data
     ) {
+        @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
         record TrackData(
                 long id,
                 String title,
@@ -56,6 +59,7 @@ public record DeezerAlbum(
                 String link,
                 ArtistOnTrack artist
         ) {
+            @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
             record ArtistOnTrack(
                     long id,
                     String name

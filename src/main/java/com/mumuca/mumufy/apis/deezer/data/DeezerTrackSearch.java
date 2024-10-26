@@ -12,6 +12,7 @@ public record DeezerTrackSearch(
         String prev,
         String next
 ) {
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     record Track(
             long id,
             String title,
@@ -21,6 +22,7 @@ public record DeezerTrackSearch(
             DeezerArtist artist,
             Album album
     ) {
+        @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
         record Album(
                 long id,
                 String title,
