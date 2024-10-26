@@ -4,6 +4,7 @@ import com.mumuca.mumufy.apis.deezer.DeezerAPI;
 import com.mumuca.mumufy.apis.deezer.data.DeezerAlbum;
 import com.mumuca.mumufy.apis.deezer.data.DeezerAlbumSearch;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,7 @@ public class AlbumService {
         return deezerAPI.searchAlbum(query);
     }
 
+    @Cacheable(value = "album", key = "#id")
     public DeezerAlbum getAlbum(long id) {
         return deezerAPI.getAlbum(id);
     }

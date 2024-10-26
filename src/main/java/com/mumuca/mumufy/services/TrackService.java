@@ -9,6 +9,7 @@ import com.mumuca.mumufy.apis.songlink.data.SongLinkResponse;
 import com.mumuca.mumufy.strategies.downloadstrategy.DownloadStrategy;
 import com.mumuca.mumufy.strategies.downloadstrategy.DownloadStrategyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,6 +30,7 @@ public class TrackService {
         return deezerAPI.searchTrack(query);
     }
 
+    @Cacheable(value = "track", key = "#id")
     public DeezerTrack getTrack(long id) {
         return deezerAPI.getTrack(id);
     }

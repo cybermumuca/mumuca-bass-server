@@ -4,3 +4,9 @@ spring:
   threads:
     virtual:
       enabled: true
+  cache:
+    type: redis
+  data:
+    redis:
+      host: localhost
+      port: 6379

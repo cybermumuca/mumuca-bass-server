@@ -1,7 +1,7 @@
 package com.mumuca.mumufy.controllers;
 
-import com.mumuca.mumufy.apis.deezer.data.DeezerTrackSearch;
 import com.mumuca.mumufy.apis.deezer.data.DeezerTrack;
+import com.mumuca.mumufy.apis.deezer.data.DeezerTrackSearch;
 import com.mumuca.mumufy.services.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
