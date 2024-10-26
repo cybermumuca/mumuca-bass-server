@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: mumufy
+  threads:
+    virtual:
+      enabled: true
