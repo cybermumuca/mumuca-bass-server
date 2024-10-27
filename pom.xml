@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.mumuca</groupId>
-    <artifactId>mumufy</artifactId>
+    <artifactId>mumuca-bass</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>mumufy</name>
-    <description>mumufy</description>
+    <name>Mumuca Bass Server</name>
+    <description>Mumuca Bass Server</description>
     <url/>
     <licenses>
         <license/>

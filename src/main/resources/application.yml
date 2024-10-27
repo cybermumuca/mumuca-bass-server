@@ -1,6 +1,6 @@
 spring:
   application:
-    name: mumufy
+    name: mumuca-bass
   threads:
     virtual:
       enabled: true
