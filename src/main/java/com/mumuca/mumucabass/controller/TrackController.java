@@ -42,11 +42,13 @@ public class TrackController {
 
     @PostMapping("/{id}/download")
     public ResponseEntity<Map<String, String>> requestDownload(@PathVariable("id") long id) {
-        String jobId = jobService.createJob(String.valueOf(id));
+        Job job = jobService.createJob(String.valueOf(id));
+
+        jobService.sendToWorker(job);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(Map.of("jobId", jobId));
+                .body(Map.of("jobId", job.getId()));
     }
 
     @GetMapping("/download/{jobId}")
