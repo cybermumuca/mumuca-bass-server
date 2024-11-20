@@ -1,7 +1,7 @@
 package com.mumuca.mumucabass.controller;
 
-import com.mumuca.mumucabass.api.deezer.data.DeezerTrack;
 import com.mumuca.mumucabass.api.deezer.data.DeezerTrackSearch;
+import com.mumuca.mumucabass.dto.response.TrackDTO;
 import com.mumuca.mumucabass.model.Job;
 import com.mumuca.mumucabass.service.JobService;
 import com.mumuca.mumucabass.service.TrackService;
@@ -31,7 +31,7 @@ public class TrackController {
     }
 
     @GetMapping("/{id}")
-    public DeezerTrack getTrack(@PathVariable("id") long id) {
+    public TrackDTO getTrack(@PathVariable("id") long id) {
         return trackService.getTrack(id);
     }
 
