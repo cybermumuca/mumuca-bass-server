@@ -1,9 +1,9 @@
 package com.mumuca.mumucabass.service;
 
-import com.mumuca.mumucabass.api.worker.WorkerAPI;
-import com.mumuca.mumucabass.api.worker.data.JobRequest;
+import com.mumuca.mumucabass.dto.request.TrackDownloadRequest;
 import com.mumuca.mumucabass.model.Job;
 import com.mumuca.mumucabass.model.JobStatus;
+import com.mumuca.mumucabass.publisher.TrackDownloadRequestPublisher;
 import com.mumuca.mumucabass.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,15 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
-
 @Service
 public class JobService {
 
     private final JobRepository jobRepository;
-    private final WorkerAPI worker;
+    private final TrackDownloadRequestPublisher worker;
 
     @Autowired
-    public JobService(JobRepository jobRepository, WorkerAPI worker) {
+    public JobService(JobRepository jobRepository, TrackDownloadRequestPublisher worker) {
         this.jobRepository = jobRepository;
         this.worker = worker;
     }
@@ -33,14 +32,9 @@ public class JobService {
     }
 
     public void sendToWorker(Job job) {
-        JobRequest jobRequest = new JobRequest(job.getId(), job.getTrackId());
+        TrackDownloadRequest request = new TrackDownloadRequest(job.getId(), job.getTrackId());
 
-        var workerResponse = worker.sendJob(jobRequest);
-
-        if (workerResponse.getStatusCode().isError()) {
-            job.setStatus(JobStatus.FAILED);
-            jobRepository.save(job);
-        }
+        worker.sendTrackDownloadRequest(request);
     }
 
     @Transactional

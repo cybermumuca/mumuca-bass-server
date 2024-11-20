@@ -1,6 +1,6 @@
 package com.mumuca.mumucabass.controller;
 
-import com.mumuca.mumucabass.request.JobStatusRequest;
+import com.mumuca.mumucabass.dto.request.JobStatusRequest;
 import com.mumuca.mumucabass.service.JobService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

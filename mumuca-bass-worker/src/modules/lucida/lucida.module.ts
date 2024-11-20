@@ -13,7 +13,7 @@ export class LucidaModule implements OnModuleInit, OnApplicationShutdown {
   constructor(private readonly configService: ConfigService) {}
 
   async onModuleInit() {
-    this.logger.log('Connecting to Lucida...');
+    this.logger.log('Trying to connect to Lucida...');
 
     const deezerLogin = this.configService.get<string>('DEEZER_LOGIN');
     const deezerPassword = this.configService.get<string>('DEEZER_PASSWORD');
@@ -35,7 +35,7 @@ export class LucidaModule implements OnModuleInit, OnApplicationShutdown {
     });
 
     await this.lucida.login();
-    this.logger.log('Lucida connected.');
+    this.logger.log('Successfully connected to Lucida.');
   }
 
   async onApplicationShutdown() {

@@ -1,4 +1,4 @@
-package com.mumuca.mumucabass.request;
+package com.mumuca.mumucabass.dto.request;
 
 import com.mumuca.mumucabass.model.JobStatus;
 import jakarta.validation.constraints.NotNull;
