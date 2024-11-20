@@ -1,6 +1,8 @@
 package com.mumuca.mumucabass.mapper;
 
+import com.mumuca.mumucabass.api.deezer.data.DeezerArtist;
 import com.mumuca.mumucabass.api.deezer.data.DeezerTrack;
+import com.mumuca.mumucabass.dto.response.ArtistDTO;
 import com.mumuca.mumucabass.dto.response.TrackDTO;
 
 public class DeezerMapper {
@@ -43,6 +45,26 @@ public class DeezerMapper {
                 bpm,
                 album,
                 artists
+        );
+    }
+
+    public static ArtistDTO toArtist(DeezerArtist deezerArtist) {
+        long id = deezerArtist.id();
+        String name = deezerArtist.name();
+        String picture = deezerArtist.picture();
+        String pictureSmall = deezerArtist.pictureSmall();
+        String pictureMedium = deezerArtist.pictureMedium();
+        String pictureBig = deezerArtist.pictureBig();
+        String pictureXl = deezerArtist.pictureXl();
+
+        return new ArtistDTO(
+                id,
+                name,
+                picture,
+                pictureSmall,
+                pictureMedium,
+                pictureBig,
+                pictureXl
         );
     }
 }

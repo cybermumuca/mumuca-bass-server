@@ -1,8 +1,8 @@
 package com.mumuca.mumucabass.controller;
 
-import com.mumuca.mumucabass.api.deezer.data.DeezerArtist;
 import com.mumuca.mumucabass.api.deezer.data.DeezerArtistSearch;
 import com.mumuca.mumucabass.api.deezer.data.DeezerArtistTopTracks;
+import com.mumuca.mumucabass.dto.response.ArtistDTO;
 import com.mumuca.mumucabass.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/artists")
 public class ArtistController {
 
+    private final ArtistService artistService;
+
     @Autowired
-    private ArtistService artistService;
+    public ArtistController(ArtistService artistService) {
+        this.artistService = artistService;
+    }
 
     @GetMapping("/search")
     public DeezerArtistSearch search(@RequestParam("query") String query) {
@@ -20,7 +24,7 @@ public class ArtistController {
     }
 
     @GetMapping("/{id}")
-    public DeezerArtist getArtist(@PathVariable("id") long id) {
+    public ArtistDTO getArtist(@PathVariable("id") long id) {
         return artistService.getArtist(id);
     }
 
