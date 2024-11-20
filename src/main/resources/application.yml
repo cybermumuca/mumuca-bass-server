@@ -35,9 +35,13 @@ mq:
   queues:
     track-download: track-download-queue
     track-download-dlq: track-download-dead-letter-queue
+    track-download-status: track-download-status-queue
+    track-download-status-dlq: track-download-status-dead-letter-queue
   routing-keys:
     track-download: track.download
     track-download-dlq: track.download.dlq
+    track-download-status: track.download.status
+    track-download-status-dlq: track.download.status.dlq
   exchanges:
     track: track-exchange
     track-dlx: track-dead-letter-exchange

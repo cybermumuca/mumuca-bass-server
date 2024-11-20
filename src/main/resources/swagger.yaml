@@ -1,0 +1,456 @@
+openapi: "3.1.0"
+info:
+  title: "Mumuca Bass API"
+  description: "A melhor API de música self-hosted"
+  version: "1.0.0"
+servers:
+  - url: "http://localhost:3000"
+    description: "Local server"
+
+tags:
+  - name: "Tracks"
+    description: "Operações relacionadas a tracks"
+  - name: "Albums"
+    description: "Operações relacionadas a albums"
+  - name: "Artists"
+    description: "Operações relacionadas a artists"
+
+paths:
+  /api/v1/tracks/search:
+    get:
+      tags:
+        - "Tracks"
+      summary: "GET api/v1/tracks/search"
+      operationId: "search"
+      parameters:
+        - name: "query"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DeezerTrackSearch"
+  /api/v1/tracks/{id}:
+    get:
+      tags:
+        - "Tracks"
+      summary: "GET api/v1/tracks/{id}"
+      operationId: "getTrack"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DeezerTrack"
+  /api/v1/tracks/{id}/stream:
+    get:
+      tags:
+        - "Tracks"
+      summary: "GET api/v1/tracks/{id}/stream"
+      operationId: "streamTrack"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+  /api/v1/albums/search:
+    get:
+      tags:
+        - "Albums"
+      summary: "GET api/v1/albums/search"
+      operationId: "search"
+      parameters:
+        - name: "query"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DeezerAlbumSearch"
+  /api/v1/albums/{id}:
+    get:
+      tags:
+        - "Albums"
+      summary: "GET api/v1/albums/{id}"
+      operationId: "getAlbum"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DeezerAlbum"
+  /api/v1/artists/search:
+    get:
+      tags:
+        - "Artists"
+      summary: "GET api/v1/artists/search"
+      operationId: "search"
+      parameters:
+        - name: "query"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DeezerArtistSearch"
+  /api/v1/artists/{id}:
+    get:
+      tags:
+        - "Artists"
+      summary: "GET api/v1/artists/{id}"
+      operationId: "getArtist"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DeezerArtist"
+  /api/v1/artists/{id}/top-tracks:
+    get:
+      tags:
+        - "Artists"
+      summary: "GET api/v1/artists/{id}/top-tracks"
+      operationId: "getTopTracks"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DeezerArtistTopTracks"
+components:
+  schemas:
+    DeezerArtist:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string"
+        link:
+          type: "string"
+        picture:
+          type: "string"
+        pictureSmall:
+          type: "string"
+        pictureMedium:
+          type: "string"
+        pictureBig:
+          type: "string"
+        pictureXl:
+          type: "string"
+    Album:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        title:
+          type: "string"
+        cover:
+          type: "string"
+        coverSmall:
+          type: "string"
+        coverMedium:
+          type: "string"
+        coverBig:
+          type: "string"
+        coverXl:
+          type: "string"
+    Track:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/TrackData"
+    DeezerTrackSearch:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Track"
+        total:
+          type: "integer"
+          format: "int32"
+        prev:
+          type: "string"
+        next:
+          type: "string"
+    Artist:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string"
+        link:
+          type: "string"
+        picture:
+          type: "string"
+        pictureSmall:
+          type: "string"
+        pictureMedium:
+          type: "string"
+        pictureBig:
+          type: "string"
+        pictureXl:
+          type: "string"
+    DeezerTrack:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        title:
+          type: "string"
+        link:
+          type: "string"
+        explicitLyrics:
+          type: "boolean"
+        duration:
+          type: "integer"
+          format: "int32"
+        bpm:
+          type: "number"
+          format: "float"
+        contributors:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Artist"
+        album:
+          $ref: "#/components/schemas/Album"
+    AlbumData:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        title:
+          type: "string"
+        link:
+          type: "string"
+        type:
+          type: "string"
+        cover:
+          type: "string"
+        coverSmall:
+          type: "string"
+        coverMedium:
+          type: "string"
+        coverBig:
+          type: "string"
+        coverXl:
+          type: "string"
+        nb_tracks:
+          type: "integer"
+          format: "int32"
+        recordType:
+          type: "string"
+        tracklist:
+          type: "string"
+        explicitLyrics:
+          type: "boolean"
+        artist:
+          $ref: "#/components/schemas/Artist"
+    DeezerAlbumSearch:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/AlbumData"
+        total:
+          type: "integer"
+          format: "int32"
+        prev:
+          type: "string"
+        next:
+          type: "string"
+    GenreData:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string"
+    Genre:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/GenreData"
+    ArtistOnTrack:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string"
+    TrackData:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        title:
+          type: "string"
+        link:
+          type: "string"
+        duration:
+          type: "integer"
+          format: "int32"
+        preview:
+          type: "string"
+        explicitLyrics:
+          type: "boolean"
+        album:
+          $ref: "#/components/schemas/Album"
+        contributors:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Artist"
+    DeezerAlbum:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        title:
+          type: "string"
+        link:
+          type: "string"
+        cover:
+          type: "string"
+        coverSmall:
+          type: "string"
+        coverMedium:
+          type: "string"
+        coverBig:
+          type: "string"
+        coverXl:
+          type: "string"
+        releaseDate:
+          type: "string"
+          format: "date"
+        explicitLyrics:
+          type: "boolean"
+        duration:
+          type: "integer"
+          format: "int32"
+        recordType:
+          type: "string"
+        genres:
+          $ref: "#/components/schemas/Genre"
+        nb_tracks:
+          type: "integer"
+          format: "int32"
+        artist:
+          $ref: "#/components/schemas/Artist"
+        tracks:
+          $ref: "#/components/schemas/Track"
+    ArtistData:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string"
+        link:
+          type: "string"
+        picture:
+          type: "string"
+        pictureSmall:
+          type: "string"
+        pictureMedium:
+          type: "string"
+        pictureBig:
+          type: "string"
+        pictureXl:
+          type: "string"
+    DeezerArtistSearch:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ArtistData"
+        total:
+          type: "integer"
+          format: "int32"
+        prev:
+          type: "string"
+        next:
+          type: "string"
+    DeezerArtistTopTracks:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/TrackData"
+        total:
+          type: "integer"
+          format: "int32"
