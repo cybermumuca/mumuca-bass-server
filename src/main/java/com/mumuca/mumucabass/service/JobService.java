@@ -41,7 +41,7 @@ public class JobService {
     public void updateJobStatus(String jobId, JobStatus status) {
         Job job = jobRepository.findById(jobId).orElse(null);
 
-        if (job == null) return;
+        if (job == null || job.getStatus() == JobStatus.COMPLETED) return;
 
         job.setStatus(status);
 
