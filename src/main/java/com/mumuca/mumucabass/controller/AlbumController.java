@@ -1,7 +1,7 @@
 package com.mumuca.mumucabass.controller;
 
-import com.mumuca.mumucabass.api.deezer.data.DeezerAlbum;
 import com.mumuca.mumucabass.api.deezer.data.DeezerAlbumSearch;
+import com.mumuca.mumucabass.dto.response.AlbumDTO;
 import com.mumuca.mumucabass.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/albums")
 public class AlbumController {
 
+    private final AlbumService albumService;
+
     @Autowired
-    private AlbumService albumService;
+    public AlbumController(AlbumService albumService) {
+        this.albumService = albumService;
+    }
 
     @GetMapping("/search")
     public DeezerAlbumSearch search(@RequestParam("query") String query) {
@@ -19,7 +23,7 @@ public class AlbumController {
     }
 
     @GetMapping("/{id}")
-    public DeezerAlbum getAlbum(@PathVariable("id") long id) {
+    public AlbumDTO getAlbum(@PathVariable("id") long id) {
         return albumService.getAlbum(id);
     }
 

@@ -1,7 +1,9 @@
 package com.mumuca.mumucabass.mapper;
 
+import com.mumuca.mumucabass.api.deezer.data.DeezerAlbum;
 import com.mumuca.mumucabass.api.deezer.data.DeezerArtist;
 import com.mumuca.mumucabass.api.deezer.data.DeezerTrack;
+import com.mumuca.mumucabass.dto.response.AlbumDTO;
 import com.mumuca.mumucabass.dto.response.ArtistDTO;
 import com.mumuca.mumucabass.dto.response.TrackDTO;
 
@@ -65,6 +67,58 @@ public class DeezerMapper {
                 pictureMedium,
                 pictureBig,
                 pictureXl
+        );
+    }
+
+    public static AlbumDTO toAlbum(DeezerAlbum deezerAlbum) {
+        long id = deezerAlbum.id();
+        String title = deezerAlbum.title();
+        String cover = deezerAlbum.cover();
+        String coverSmall = deezerAlbum.coverSmall();
+        String coverMedium = deezerAlbum.coverMedium();
+        String coverBig = deezerAlbum.coverBig();
+        String coverXl = deezerAlbum.coverXl();
+        String releaseDate = deezerAlbum.releaseDate();
+        boolean isExplicit = deezerAlbum.explicitLyrics();
+        int duration = deezerAlbum.duration();
+        String type = deezerAlbum.recordType();
+        int numberOfTracks = deezerAlbum.trackLength();
+
+        var artist = new AlbumDTO.Artist(
+                deezerAlbum.artist().id(),
+                deezerAlbum.artist().name(),
+                deezerAlbum.artist().picture(),
+                deezerAlbum.artist().pictureSmall(),
+                deezerAlbum.artist().pictureMedium(),
+                deezerAlbum.artist().pictureBig(),
+                deezerAlbum.artist().pictureXl()
+        );
+
+
+        var tracks = deezerAlbum.tracks().data().stream()
+                .map(track -> new AlbumDTO.Track(
+                        track.id(),
+                        track.title(),
+                        track.duration(),
+                        track.explicitLyrics()
+                ))
+                .toList();
+
+        return new AlbumDTO(
+                id,
+                title,
+                cover,
+                coverSmall,
+                coverMedium,
+                coverBig,
+                coverXl,
+                releaseDate,
+                isExplicit,
+                duration,
+                type,
+                numberOfTracks,
+                artist,
+                tracks
         );
     }
 }

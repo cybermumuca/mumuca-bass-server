@@ -36,7 +36,7 @@ public record DeezerAlbum(
         ) {}
     }
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-    record Artist(
+    public record Artist(
             long id,
             String name,
             String link,
@@ -46,11 +46,11 @@ public record DeezerAlbum(
             String pictureBig,
             String pictureXl
     ) {}
-    record Track(
+    public record Track(
             List<TrackData> data
     ) {
         @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-        record TrackData(
+        public record TrackData(
                 long id,
                 String title,
                 int duration,
