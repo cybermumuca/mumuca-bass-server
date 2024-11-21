@@ -1,11 +1,13 @@
 package com.mumuca.mumucabass.controller;
 
 import com.mumuca.mumucabass.api.deezer.data.DeezerArtistSearch;
-import com.mumuca.mumucabass.api.deezer.data.DeezerArtistTopTracks;
 import com.mumuca.mumucabass.dto.response.ArtistDTO;
+import com.mumuca.mumucabass.dto.response.TopTrackDTO;
 import com.mumuca.mumucabass.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/artists")
@@ -29,7 +31,7 @@ public class ArtistController {
     }
 
     @GetMapping("/{id}/top-tracks")
-    public DeezerArtistTopTracks getTopTracks(@PathVariable("id") long id) {
+    public List<TopTrackDTO> getTopTracks(@PathVariable("id") long id) {
         return artistService.getTopTracks(id);
     }
 }

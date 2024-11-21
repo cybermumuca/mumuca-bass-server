@@ -5,10 +5,13 @@ import com.mumuca.mumucabass.api.deezer.data.DeezerArtist;
 import com.mumuca.mumucabass.api.deezer.data.DeezerArtistSearch;
 import com.mumuca.mumucabass.api.deezer.data.DeezerArtistTopTracks;
 import com.mumuca.mumucabass.dto.response.ArtistDTO;
+import com.mumuca.mumucabass.dto.response.TopTrackDTO;
 import com.mumuca.mumucabass.mapper.DeezerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ArtistService {
@@ -32,7 +35,9 @@ public class ArtistService {
     }
 
     @Cacheable(value = "artistTopTracks", key = "#id")
-    public DeezerArtistTopTracks getTopTracks(long id) {
-        return deezerAPI.getArtistTopTracks(id);
+    public List<TopTrackDTO> getTopTracks(long id) {
+        DeezerArtistTopTracks deezerArtistTopTracks = deezerAPI.getArtistTopTracks(id);
+
+        return DeezerMapper.toTopTracks(deezerArtistTopTracks);
     }
 }

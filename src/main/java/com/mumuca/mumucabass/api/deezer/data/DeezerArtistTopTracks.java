@@ -12,7 +12,7 @@ public record DeezerArtistTopTracks(
         int total
 ) {
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-    record TrackData(
+    public record TrackData(
             long id,
             String title,
             String link,
@@ -23,7 +23,7 @@ public record DeezerArtistTopTracks(
             @JsonProperty("contributors") List<Artist> interpreters
     ) {
         @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-        record Artist(
+        public record Artist(
                 long id,
                 String name,
                 String link,
@@ -34,7 +34,7 @@ public record DeezerArtistTopTracks(
                 String pictureXl
         ) {}
         @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-        record Album(
+        public record Album(
                 long id,
                 String title,
                 String cover,

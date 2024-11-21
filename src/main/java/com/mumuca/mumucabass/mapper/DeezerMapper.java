@@ -2,10 +2,15 @@ package com.mumuca.mumucabass.mapper;
 
 import com.mumuca.mumucabass.api.deezer.data.DeezerAlbum;
 import com.mumuca.mumucabass.api.deezer.data.DeezerArtist;
+import com.mumuca.mumucabass.api.deezer.data.DeezerArtistTopTracks;
 import com.mumuca.mumucabass.api.deezer.data.DeezerTrack;
 import com.mumuca.mumucabass.dto.response.AlbumDTO;
 import com.mumuca.mumucabass.dto.response.ArtistDTO;
+import com.mumuca.mumucabass.dto.response.TopTrackDTO;
 import com.mumuca.mumucabass.dto.response.TrackDTO;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DeezerMapper {
     public static TrackDTO toTrack(DeezerTrack deezerTrack) {
@@ -120,5 +125,44 @@ public class DeezerMapper {
                 artist,
                 tracks
         );
+    }
+
+    public static List<TopTrackDTO> toTopTracks(DeezerArtistTopTracks deezerArtistTopTracks) {
+        return deezerArtistTopTracks.data()
+                .stream()
+                .map(track -> {
+                    TopTrackDTO.Album album = new TopTrackDTO.Album(
+                            track.album().id(),
+                            track.album().title(),
+                            track.album().cover(),
+                            track.album().coverSmall(),
+                            track.album().coverMedium(),
+                            track.album().coverBig(),
+                            track.album().coverXl()
+                    );
+
+                    List<TopTrackDTO.Artist> artists = track.interpreters()
+                            .stream()
+                            .map(artist -> new TopTrackDTO.Artist(
+                                    artist.id(),
+                                    artist.name(),
+                                    artist.picture(),
+                                    artist.pictureSmall(),
+                                    artist.pictureMedium(),
+                                    artist.pictureBig(),
+                                    artist.pictureXl()
+                            ))
+                            .toList();
+
+                    return new TopTrackDTO(
+                            track.id(),
+                            track.title(),
+                            track.explicitLyrics(),
+                            track.duration(),
+                            album,
+                            artists
+                    );
+                })
+                .collect(Collectors.toList());
     }
 }
