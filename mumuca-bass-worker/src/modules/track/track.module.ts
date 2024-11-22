@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TrackDownloadSubscriber } from './track-download.subscriber';
+import { TrackDownloadSubscriber } from './subscribers/track-download.subscriber';
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { ConfigService } from '@nestjs/config';
 import { AddMetadataToFileUtil } from './utils/add-metadata-to-file.util';
@@ -7,9 +7,10 @@ import { DetectAudioFormatUtil } from './utils/detect-audio-format.util';
 import { DownloadImageUtil } from './utils/download-image.util';
 import { GenerateFilePathUtil } from './utils/generate-file-path.util';
 import { LucidaModule } from '../lucida/lucida.module';
-import { ServiceModule } from '../../service/service.module';
 import { HttpModule } from '@nestjs/axios';
-import { TrackDownloadService } from './track-download.service';
+import { TrackDownloadService } from './services/track-download.service';
+import { NotifyDownloadStatusService } from './services/notify-download-status.service';
+import { TrackDownloadStatusDeadLetterSubscriber } from './subscribers/track-download-status-dead-letter.subscriber';
 
 @Module({
   imports: [
@@ -25,22 +26,23 @@ import { TrackDownloadService } from './track-download.service';
         return {
           uri: [uri],
           connectionInitOptions: { wait: true },
-          prefetchCount: 5,
+          prefetchCount: 20, // TODO: use env var
         };
       },
       inject: [ConfigService],
     }),
     LucidaModule,
-    ServiceModule,
     HttpModule
   ],
   providers: [
     TrackDownloadSubscriber,
     TrackDownloadService,
+    NotifyDownloadStatusService,
+    TrackDownloadStatusDeadLetterSubscriber,
     AddMetadataToFileUtil,
     DetectAudioFormatUtil,
     DownloadImageUtil,
-    GenerateFilePathUtil
+    GenerateFilePathUtil,
   ],
 })
 export class TrackModule {}

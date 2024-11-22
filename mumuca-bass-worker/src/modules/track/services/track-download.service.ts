@@ -1,20 +1,20 @@
 import { writeFile } from 'node:fs/promises';
 import fs from 'node:fs';
 import { Injectable, Logger } from '@nestjs/common';
-import { LucidaModule } from '../lucida/lucida.module';
+import { LucidaModule } from '../../lucida/lucida.module';
 import { PassThrough } from 'node:stream';
-import { Metadata } from './interfaces/metadata';
-import { NotifyJobStatusService } from '../../service/notify-job-status.service';
-import { DetectAudioFormatUtil } from './utils/detect-audio-format.util';
-import { GenerateFilePathUtil } from './utils/generate-file-path.util';
-import { AddMetadataToFileUtil } from './utils/add-metadata-to-file.util';
+import { Metadata } from '../interfaces/metadata';
+import { DetectAudioFormatUtil } from '../utils/detect-audio-format.util';
+import { GenerateFilePathUtil } from '../utils/generate-file-path.util';
+import { AddMetadataToFileUtil } from '../utils/add-metadata-to-file.util';
+import { NotifyDownloadStatusService } from './notify-download-status.service';
 
 @Injectable()
 export class TrackDownloadService {
   private readonly logger = new Logger(TrackDownloadService.name);
 
   constructor(
-    private readonly notifyJobStatusService: NotifyJobStatusService,
+    private readonly notifyDownloadStatus: NotifyDownloadStatusService,
     private readonly lucidaModule: LucidaModule,
     private readonly detectAudioFormatUtil: DetectAudioFormatUtil,
     private readonly generateFilePathUtil: GenerateFilePathUtil,
@@ -24,14 +24,14 @@ export class TrackDownloadService {
   async downloadTrack(jobId: string, trackId: string) {
     this.logger.log(`Downloading track ${trackId} for job ${jobId}...`);
 
-    await this.notifyJobStatusService.notifyJobStatus(jobId, "IN_PROGRESS");
+    await this.notifyDownloadStatus.notifyDownloadStatus({ jobId, status: 'IN_PROGRESS' });
 
     try {
       const track = await this.lucidaModule.getLucidaInstance()
         .getByUrl(`https://www.deezer.com/track/${trackId}`);
 
       if (track.type !== "track" || !("getStream" in track)) {
-        await this.notifyJobStatusService.notifyJobStatus(jobId, "FAILED");
+        await this.notifyDownloadStatus.notifyDownloadStatus({ jobId, status: 'FAILED' });
         return;
       }
 
@@ -97,16 +97,16 @@ export class TrackDownloadService {
         .then(async () => {
           this.logger.debug(`File saved with metadata in ${outputFilePath}`);
           fs.unlinkSync(tempFilePath);
-          await this.notifyJobStatusService.notifyJobStatus(jobId, "COMPLETED");
+          await this.notifyDownloadStatus.notifyDownloadStatus({ jobId, status: 'COMPLETED' });
         })
         .catch(async (error) => {
           this.logger.error(`Error adding metadata: ${error.message}`);
           fs.unlinkSync(tempFilePath);
-          await this.notifyJobStatusService.notifyJobStatus(jobId, "FAILED");
+          await this.notifyDownloadStatus.notifyDownloadStatus({ jobId, status: 'FAILED' });
         })
     } catch (error) {
       this.logger.error(`Error downloading track ${trackId} for job ${jobId}: ${error}`);
-      await this.notifyJobStatusService.notifyJobStatus(jobId, "FAILED");
+      await this.notifyDownloadStatus.notifyDownloadStatus({ jobId, status: 'FAILED' });
     }
   }
 }

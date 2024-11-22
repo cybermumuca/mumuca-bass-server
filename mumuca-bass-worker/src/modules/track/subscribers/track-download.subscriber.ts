@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Nack, RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
-import { TrackDownloadMessage } from './interfaces/track-download';
-import { TrackDownloadService } from './track-download.service';
+import { TrackDownloadMessage } from '../interfaces/track-download';
+import { TrackDownloadService } from '../services/track-download.service';
 
 @Injectable()
 export class TrackDownloadSubscriber {
@@ -14,9 +14,9 @@ export class TrackDownloadSubscriber {
     routingKey: 'track.download',
     queue: 'track-download-queue',
     createQueueIfNotExists: false,
-    allowNonJsonMessages: true,
+    allowNonJsonMessages: true
   })
-  async handleTrackDownload(message: TrackDownloadMessage,) {
+  async handleTrackDownload(message: TrackDownloadMessage) {
     this.logger.debug(`Received message: ${JSON.stringify(message)}`);
 
     try {
