@@ -1,3 +1,29 @@
 spring:
   application:
     name: Mumuca Bass Storage
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  datasource:
+    url: jdbc:postgresql://localhost:5433/mumuca-bass
+    username: mumuca-bass-dev
+    password: mumuca-bass-password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: on
+
+upload:
+  directory: ./var/mumuca-bass-storage/uploads
+  tmp-directory: /tmp/mumuca-bass-storage
+
+server:
+  port: 8082
