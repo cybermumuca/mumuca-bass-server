@@ -43,11 +43,6 @@ public class TrackController {
         return trackService.getTrack(id);
     }
 
-    @GetMapping("/v1/tracks/{id}/stream")
-    public String streamTrack(@PathVariable("id") long id) {
-        return trackService.streamTrack(id);
-    }
-
     @PostMapping("/v1/tracks/{id}/download")
     public ResponseEntity<Map<String, String>> requestDownload(@PathVariable("id") long id) {
         logger.info("POST /api/v1/tracks/{}/download", id);
