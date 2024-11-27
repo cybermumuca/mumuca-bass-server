@@ -5,6 +5,8 @@ import com.mumuca.mumucabass.dto.response.TrackDTO;
 import com.mumuca.mumucabass.model.Job;
 import com.mumuca.mumucabass.service.JobService;
 import com.mumuca.mumucabass.service.TrackService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class TrackController {
+
+    private static final Logger logger = LoggerFactory.getLogger(TrackController.class);
 
     private final TrackService trackService;
     private final JobService jobService;
@@ -27,11 +31,15 @@ public class TrackController {
 
     @GetMapping("/v1/tracks/search")
     public DeezerTrackSearch search(@RequestParam("query") String query) {
+        logger.info("GET /api/v1/tracks/search?query={}", query);
+
         return trackService.search(query);
     }
 
     @GetMapping("/v1/tracks/{id}")
     public TrackDTO getTrack(@PathVariable("id") long id) {
+        logger.info("GET /api/v1/tracks/{}", id);
+
         return trackService.getTrack(id);
     }
 
@@ -42,6 +50,8 @@ public class TrackController {
 
     @PostMapping("/v1/tracks/{id}/download")
     public ResponseEntity<Map<String, String>> requestDownload(@PathVariable("id") long id) {
+        logger.info("POST /api/v1/tracks/{}/download", id);
+
         Job job = jobService.createJob(String.valueOf(id));
 
         jobService.sendToWorker(job);
@@ -53,6 +63,8 @@ public class TrackController {
 
     @GetMapping("/v1/tracks/download/{jobId}")
     public ResponseEntity<Object> download(@PathVariable("jobId") String jobId) {
+        logger.info("GET /api/v1/tracks/download/{}", jobId);
+
         Job job = jobService.findJobById(jobId);
 
         if (job == null) {
