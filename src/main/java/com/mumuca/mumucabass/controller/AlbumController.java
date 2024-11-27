@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/albums")
+@RequestMapping("/api")
 public class AlbumController {
 
     private final AlbumService albumService;
@@ -17,12 +17,12 @@ public class AlbumController {
         this.albumService = albumService;
     }
 
-    @GetMapping("/search")
+    @GetMapping("/v1/albums/search")
     public DeezerAlbumSearch search(@RequestParam("query") String query) {
         return albumService.search(query);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/v1/albums/{id}")
     public AlbumDTO getAlbum(@PathVariable("id") long id) {
         return albumService.getAlbum(id);
     }

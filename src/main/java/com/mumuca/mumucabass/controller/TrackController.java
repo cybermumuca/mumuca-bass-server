@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/tracks")
+@RequestMapping("/api")
 public class TrackController {
 
     private final TrackService trackService;
@@ -25,22 +25,22 @@ public class TrackController {
         this.jobService = jobService;
     }
 
-    @GetMapping("/search")
+    @GetMapping("/v1/tracks/search")
     public DeezerTrackSearch search(@RequestParam("query") String query) {
         return trackService.search(query);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/v1/tracks/{id}")
     public TrackDTO getTrack(@PathVariable("id") long id) {
         return trackService.getTrack(id);
     }
 
-    @GetMapping("/{id}/stream")
+    @GetMapping("/v1/tracks/{id}/stream")
     public String streamTrack(@PathVariable("id") long id) {
         return trackService.streamTrack(id);
     }
 
-    @PostMapping("/{id}/download")
+    @PostMapping("/v1/tracks/{id}/download")
     public ResponseEntity<Map<String, String>> requestDownload(@PathVariable("id") long id) {
         Job job = jobService.createJob(String.valueOf(id));
 
@@ -51,7 +51,7 @@ public class TrackController {
                 .body(Map.of("jobId", job.getId()));
     }
 
-    @GetMapping("/download/{jobId}")
+    @GetMapping("/v1/tracks/download/{jobId}")
     public ResponseEntity<Object> download(@PathVariable("jobId") String jobId) {
         Job job = jobService.findJobById(jobId);
 

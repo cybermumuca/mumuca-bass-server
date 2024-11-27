@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/artists")
+@RequestMapping("/api")
 public class ArtistController {
 
     private final ArtistService artistService;
@@ -20,17 +20,17 @@ public class ArtistController {
         this.artistService = artistService;
     }
 
-    @GetMapping("/search")
+    @GetMapping("/v1/artists/search")
     public DeezerArtistSearch search(@RequestParam("query") String query) {
         return artistService.search(query);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/v1/artists/{id}")
     public ArtistDTO getArtist(@PathVariable("id") long id) {
         return artistService.getArtist(id);
     }
 
-    @GetMapping("/{id}/top-tracks")
+    @GetMapping("/v1/artists/{id}/top-tracks")
     public List<TopTrackDTO> getTopTracks(@PathVariable("id") long id) {
         return artistService.getTopTracks(id);
     }
