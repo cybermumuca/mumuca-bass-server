@@ -48,7 +48,6 @@ export class TrackDownloadService {
       };
 
       const format = await this.detectAudioFormatUtil.execute(createStreamClone());
-      this.logger.debug(`Format detected: ${format}`);
 
       const buffer = await new Promise<Buffer>((resolve, reject) => {
         const chunks: Buffer[] = [];
@@ -87,8 +86,6 @@ export class TrackDownloadService {
       this.logger.debug(`Metadata: ${JSON.stringify(metadata)}`);
 
       const [tempFilePath, outputFilePath] = this.generateFilePathUtil.execute(metadata, format);
-      this.logger.debug(`Temp file path generated: ${tempFilePath}`);
-      this.logger.debug(`Output file path generated: ${outputFilePath}`);
 
       await writeFile(tempFilePath, buffer);
       this.logger.debug(`Generated file: ${tempFilePath}`);
